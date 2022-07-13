@@ -57,10 +57,10 @@ echo -e "\e[1m\e[32m3. Downloading and building binaries... \e[0m" && sleep 1
 # download binary
 cd $HOME
 rm quicksilver -rf
-git clone https://github.com/ingenuity-build/quicksilver.git --branch v0.4.0
+git clone https://github.com/ingenuity-build/quicksilver.git --branch v0.4.2
 cd quicksilver
 make build
-sudo chmod +x ./build/quicksilverd && sudo mv ./build/quicksilverd /usr/local/bin/quicksilverd
+sudo chmod +x ./build/quicksilverd && sudo mv ./build/quicksilverd /root/go/bin/quicksilverd
 
 # config
 quicksilverd config chain-id $QUICKSILVER_CHAIN_ID
