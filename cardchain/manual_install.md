@@ -1,6 +1,6 @@
 <p style="font-size:14px" align="right">
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
-<a href="https://discord.gg/EY35ZzXY" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
+<a href="https://discord.gg/QmGfDKrA" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
 </p>
 
@@ -45,15 +45,16 @@ sudo apt install curl build-essential git wget jq make gcc tmux chrony -y
 
 ## Install go
 ```
-ver="1.18.2"
-cd $HOME
-wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
-sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
-rm "go$ver.linux-amd64.tar.gz"
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
-source ~/.bash_profile
-go version
+if ! [ -x "$(command -v go)" ]; then
+  ver="1.18.2"
+  cd $HOME
+  wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
+  sudo rm -rf /usr/local/go
+  sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
+  rm "go$ver.linux-amd64.tar.gz"
+  echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
+  source ~/.bash_profile
+fi
 ```
 
 ## Download and build binaries
@@ -81,7 +82,7 @@ wget -qO $HOME/.Cardchain/config/genesis.json "https://raw.githubusercontent.com
 ## Set seeds and peers
 ```
 SEEDS=""
-PEERS="cd1c88e7829a940fc6332c925943fb0e45588121@138.201.139.175:21106,a9c56a9479bbdb8aa7bfb93bd85907bd4f4a4cca@135.181.154.42:26656,407fd08d831eaec4be840bf762740a72c5c48ea6@159.69.11.174:36656,a506820ea90c5b0ddb9005ef720a121e9f6bbaeb@45.136.28.158:26658,8b376446ae31162449c9749390830b05420bdf55@95.216.223.244:26656"
+PEERS="61f05a01167b1aec59275f74c3d7c3dc7e9388d4@45.136.28.158:26658"
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.Cardchain/config/config.toml
 ```
 

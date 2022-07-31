@@ -1,6 +1,6 @@
 <p style="font-size:14px" align="right">
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
-<a href="https://discord.gg/EY35ZzXY" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
+<a href="https://discord.gg/QmGfDKrA" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
 </p>
 
@@ -60,6 +60,23 @@ source $HOME/.bash_profile
 Next you have to make sure your validator is syncing blocks. You can use command below to check synchronization status
 ```
 seid status 2>&1 | jq .SyncInfo
+```
+
+### Data snapshot
+```
+sudo apt update
+sudo apt install lz4 -y
+sudo systemctl stop seid
+seid tendermint unsafe-reset-all --home $HOME/.sei --keep-addr-book
+
+cd $HOME/.sei
+rm -rf data
+
+SNAP_NAME=$(curl -s https://snapshots1-testnet.nodejumper.io/sei-testnet/ | egrep -o ">atlantic-1.*\.tar.lz4" | tr -d ">")
+curl https://snapshots1-testnet.nodejumper.io/sei-testnet/${SNAP_NAME} | lz4 -dc - | tar -xf -
+
+sudo systemctl restart seid
+sudo journalctl -u seid -f --no-hostname -o cat
 ```
 
 ### Create wallet
@@ -286,4 +303,5 @@ sudo rm /etc/systemd/system/sei* -rf
 sudo rm $(which seid) -rf
 sudo rm $HOME/.sei -rf
 sudo rm $HOME/sei-chain -rf
+sed -i '/SEI_/d' ~/.bash_profile
 ```

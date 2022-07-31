@@ -1,6 +1,6 @@
 <p style="font-size:14px" align="right">
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
-<a href="https://discord.gg/EY35ZzXY" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
+<a href="https://discord.gg/QmGfDKrA" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
 </p>
 
@@ -26,6 +26,8 @@ wget -O install_exporters.sh https://raw.githubusercontent.com/kj89/cosmos_node_
 |---------------|-------------|
 | **bond_denom** | Denominated token name, for example, `ueaura` for aura testnet. You can find it in genesis file |
 | **bench_prefix** | Prefix for chain addresses, for example, `aura` for aura testnet. You can find it in public addresses like this **aura**_valoper1zyyz4m9ytdf60fn9yaafx7uy7h463n7alv2ete_ |
+| **rpc_port** | Your validator `rpc` port that is defined in `config.toml` file. Default value for aura is `17657` |
+| **grpc_port** | Your validator `grpc` port that is defined in `app.toml` file. Default value for aura is `17090` |
 
 make sure following ports are open:
 - `9100` (node-exporter)

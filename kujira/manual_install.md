@@ -1,6 +1,6 @@
 <p style="font-size:14px" align="right">
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
-<a href="https://discord.gg/EY35ZzXY" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
+<a href="https://discord.gg/QmGfDKrA" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
 </p>
 
@@ -45,15 +45,16 @@ sudo apt install curl build-essential git wget jq make gcc tmux chrony -y
 
 ## Install go
 ```
-ver="1.18.2"
-cd $HOME
-wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
-sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
-rm "go$ver.linux-amd64.tar.gz"
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
-source ~/.bash_profile
-go version
+if ! [ -x "$(command -v go)" ]; then
+  ver="1.18.2"
+  cd $HOME
+  wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
+  sudo rm -rf /usr/local/go
+  sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
+  rm "go$ver.linux-amd64.tar.gz"
+  echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
+  source ~/.bash_profile
+fi
 ```
 
 ## Download and build binaries
@@ -108,7 +109,7 @@ sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $
 
 ## Set minimum gas price and timeout commit
 ```
-sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.00125ukuji,0.00125ibc/295548A78785A1007F232DE286149A6FF512F180AF5657780FC89C009E2C348F,0.00125ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2,0.000125ibc/47BD209179859CDE4A2806763D7189B6E6FE13A17880FE2B42DE1E6C1E329E23,0.00125ibc/EFF323CC632EC4F747C61BCE238A758EFDB7699C3226565F7C20DA06509D59A5\"/" $HOME/.kujira/config/app.toml
+sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.00125ukuji\"/" $HOME/.kujira/config/app.toml
 sed -i -e "s/^timeout_commit *=.*/timeout_commit = \"1500ms\"/" $HOME/.kujira/config/config.toml
 ```
 

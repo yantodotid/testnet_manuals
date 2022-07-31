@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "=================================================="
+
 echo -e "\033[0;35m"
 echo " :::    ::: ::::::::::: ::::    :::  ::::::::  :::::::::  :::::::::: ::::::::  ";
 echo " :+:   :+:      :+:     :+:+:   :+: :+:    :+: :+:    :+: :+:       :+:    :+: ";
@@ -9,7 +9,7 @@ echo " +#+  +#+       +#+     +#+  +#+#+# +#+    +#+ +#+    +#+ +#+             
 echo " #+#   #+#  #+# #+#     #+#   #+#+# #+#    #+# #+#    #+# #+#       #+#    #+# ";
 echo " ###    ###  #####      ###    ####  ########  #########  ########## ########  ";
 echo -e "\e[0m"
-echo "=================================================="
+
 
 sleep 2
 
@@ -22,7 +22,7 @@ STRIDE_PORT=16
 if [ ! $WALLET ]; then
 	echo "export WALLET=wallet" >> $HOME/.bash_profile
 fi
-echo "export STRIDE_CHAIN_ID=STRIDE" >> $HOME/.bash_profile
+echo "export STRIDE_CHAIN_ID=STRIDE-TESTNET-2" >> $HOME/.bash_profile
 echo "export STRIDE_PORT=${STRIDE_PORT}" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -43,22 +43,23 @@ echo -e "\e[1m\e[32m2. Installing dependencies... \e[0m" && sleep 1
 sudo apt install curl build-essential git wget jq make gcc tmux chrony -y
 
 # install go
-ver="1.18.2"
-cd $HOME
-wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
-sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
-rm "go$ver.linux-amd64.tar.gz"
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
-source ~/.bash_profile
-go version
+if ! [ -x "$(command -v go)" ]; then
+  ver="1.18.2"
+  cd $HOME
+  wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
+  sudo rm -rf /usr/local/go
+  sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
+  rm "go$ver.linux-amd64.tar.gz"
+  echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
+  source ~/.bash_profile
+fi
 
 echo -e "\e[1m\e[32m3. Downloading and building binaries... \e[0m" && sleep 1
 # download binary
 cd $HOME
 git clone https://github.com/Stride-Labs/stride.git
 cd stride
-git checkout afabdb8e17b4a2dac6906b61b80b37c60638a7f0
+git checkout 3cb77a79f74e0b797df5611674c3fbd000dfeaa1
 make build
 sudo cp $HOME/stride/build/strided /usr/local/bin
 
@@ -74,8 +75,8 @@ strided init $NODENAME --chain-id $STRIDE_CHAIN_ID
 wget -qO $HOME/.stride/config/genesis.json "https://raw.githubusercontent.com/Stride-Labs/testnet/main/poolparty/genesis.json"
 
 # set peers and seeds
-SEEDS=""
-PEERS="84ff28824a911409e2c24f2f5ede87ae1b859b5f@5.189.178.222:46656,aab7adcd3f3eaa564a5ced76482889b1f5f5e059@195.201.126.137:16656,b4153352a6ff828221bd8babc97997b163557cc1@88.99.30.10:40656,0ad40f646a4ea4890ef3fcdb1c28171550d9da8d@38.242.233.25:16656,e412a4445c091514688836ce2b8fb4f6b8484b74@161.97.107.147:26656,f60e34d31732a81c6502249657123d9e0cbeb7dd@194.163.176.105:26656,3c10c8465c6bb179c9f09b61942efc4523a1e636@95.217.155.136:16656,1cc56ca0734999494c59f80742e3b6125f058718@135.181.89.127:16656,1190cd5a42f6d15b4969ef88cccd38d88270fd62@185.144.99.13:26656,0957b6b05f683246cc48dc0aa593931a871377f6@178.250.242.94:16656,"
+SEEDS="c0b278cbfb15674e1949e7e5ae51627cb2a2d0a9@seedv2.poolparty.stridenet.co:26656"
+PEERS="6a9c9871d115c97acc56cb47aa96ccac1728d42d@51.75.135.47:16656,02073421dfeb1fc9426698250db8db68a60b3865@35.184.123.9:26656,efb44e5336800b589053a13f2ee94d3d1cfe19d8@65.108.62.95:12656,11cf69772d08210baa7eff2728efb190cc8103db@46.146.231.96:26656,0c5521e59c227726888504e3f857beb5973d113c@65.108.76.44:11523,e981b87ff961e991f0915301e50f408b33bfdd60@143.198.43.17:16656,c9975b81d7f3afdf5179651c76a013baf70d13ce@62.171.172.182:16656,d7b72c668e32bf1e5efa7d196047188d5a6f1db8@65.108.231.252:46656,73f15ad99a0ac6e60cda2b691bc5b71cd7f221bc@141.95.124.151:20086,f4e9b46abb91c1cf328e28cc195964958ff621b9@65.108.45.200:26959,f6e804d1d509db730de171cf1d0553d701c5140f@142.132.235.215:16656,830a6dcc085dbe37ba0d6c15ac2b10c95d5ba5c3@158.247.231.2:26656,03a532495fc6a2ec20f29318aeb6c9a54286312a@89.163.221.56:26656,ae03ae125b456b4d8df8658917910ec259e14f8b@149.102.131.174:16656,1c06803eb8dda04473f2a5d8419f26126d6d1b09@89.58.45.204:26656,be60859ea3cc6e4d37d50c81c1841355b6885109@86.48.2.79:26656,05313ff7326221035692e5c43198d13ee9079cc7@116.203.47.199:26656,fdcbb0a1d58e4bb934606abaa0e7eb9fc8ef3227@159.223.231.90:16656,c95397b6cc5282a1525bef49bcdd3119847f324e@149.102.139.103:26656,4aed611d0f9758d2362c7d28f067eb6ecd833927@147.182.250.27:16656,dfdc971008bbc3910bcd71855d229e19b8534dbf@159.223.203.149:16656,bb3daec1234c4cbd18b26b13ab9c1db8fbd17f83@38.242.146.249:16656,89fc167903c6f8afd519cbc8cc1542ac6467f911@135.181.133.248:11656,3e17bda1c34f025b8397b5baeaef5000c4c21ddd@213.239.213.179:26656,3e8741d3ae96e08439e7da308ebf1e6651acb02a@167.71.77.205:16656,a3afae256ad780f873f85a0c377da5c8e9c28cb2@54.219.207.30:26656,1aa3c20fd33fd1ece537e695fd67c49efe9e806d@34.125.11.162:26656,4e26c5b8206c116192ceb7f6b5efa176312198ad@185.205.244.117:26656"
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.stride/config/config.toml
 
 # set custom ports

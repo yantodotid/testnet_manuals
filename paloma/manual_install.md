@@ -1,6 +1,6 @@
 <p style="font-size:14px" align="right">
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
-<a href="https://discord.gg/EY35ZzXY" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
+<a href="https://discord.gg/QmGfDKrA" target="_blank">Join our discord <img src="https://user-images.githubusercontent.com/50621007/176236430-53b0f4de-41ff-41f7-92a1-4233890a90c8.png" width="30"/></a>
 <a href="https://kjnodes.com/" target="_blank">Visit our website <img src="https://user-images.githubusercontent.com/50621007/168689709-7e537ca6-b6b8-4adc-9bd0-186ea4ea4aed.png" width="30"/></a>
 </p>
 
@@ -45,20 +45,21 @@ sudo apt install curl build-essential git wget jq make gcc tmux -y
 
 ## Install go
 ```
-ver="1.18.2"
-cd $HOME
-wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
-sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
-rm "go$ver.linux-amd64.tar.gz"
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
-source ~/.bash_profile
-go version
+if ! [ -x "$(command -v go)" ]; then
+  ver="1.18.2"
+  cd $HOME
+  wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
+  sudo rm -rf /usr/local/go
+  sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
+  rm "go$ver.linux-amd64.tar.gz"
+  echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
+  source ~/.bash_profile
+fi
 ```
 
 ## Download and build binaries
 ```
-wget -O - https://github.com/palomachain/paloma/releases/download/v0.2.5-prealpha/paloma_0.2.5-prealpha_Linux_x86_64.tar.gz | \
+wget -O - https://github.com/palomachain/paloma/releases/download/v0.4.1-alpha/paloma_0.4.1-alpha_Linux_x86_64.tar.gz | \
 sudo tar -C /usr/local/bin -xvzf - palomad
 sudo chmod +x /usr/local/bin/palomad
 sudo wget -P /usr/lib https://github.com/CosmWasm/wasmvm/raw/main/api/libwasmvm.x86_64.so
@@ -85,7 +86,7 @@ wget -O ~/.paloma/config/addrbook.json https://raw.githubusercontent.com/palomac
 ## Set seeds and peers
 ```
 SEEDS=""
-PEERS="4e4159a9a34509bf100d64c9e212794d34b0afb5@159.69.217.0:10656,68e4fb7ed3c792a3cf6f8c43d984d23c513b66f4@146.19.24.34:16656,5062d64908be0c55c46fb9a53af6172034b9bad7@139.59.241.140:26656,484e0d3cc02ba868d4ad68ec44caf89dd14d1845@135.181.133.93:33656,2d81fe626fcbeb39baa7f0e5f80ce397c87b2ee1@185.144.99.227:26656,97558c8ff616932dc17aa1d6ee1beb7c20e76ee1@85.12.236.11:36656,22363c50e4fcc75084d927f150636048c66b85c2@65.21.143.79:21556,983c19423a0c9a4a444d6ccd76a73ecac523b868@78.47.128.136:26656,b9c270178981db59781c3fc8f6aaed6e32adfa01@142.132.226.57:10656,ad5905c475cd13b31284c9e29ac0e388ea4068b1@135.181.59.162:21656,7bcd621295f802c5b1d7be498ec57112b8d311a9@65.108.218.48:10656"
+PEERS="ae6eaae5fb773948281b65eca4ec031a40e42b17@50.116.15.176:26656,8912f06b337b9f773225bd59e5a139e5af7eb852@65.108.235.107:10656,abc044647c4906472ca3564c5b30c6cede44e9d1@23.88.77.188:20003,b1d4dd40ea8aeb01443e92d941a719ccd7a2f4b5@130.185.118.165:10656,2d81fe626fcbeb39baa7f0e5f80ce397c87b2ee1@185.144.99.227:26656,b522201fa15b07ee3b503e853fe90cb44cf56a3c@168.119.229.69:26656,1cf04bee1fbf28f6a6a3da3d1aa13f89d0d4c296@185.244.181.27:26656"
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.paloma/config/config.toml
 ```
 
